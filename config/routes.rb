@@ -7,4 +7,8 @@ Rails.application.routes.draw do
   
   # Defines the root path route ("/")
   root to: 'pages#home'
+
+  resources :boards do
+    get "generations/:order", to: "generations#show"
+  end
 end
