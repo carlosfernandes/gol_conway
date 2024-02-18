@@ -1,10 +1,25 @@
 class GameOfLifeService
-  def initialize(current_state, size)
-    @size = size
-    @current_board = JSON.parse(current_state)
+  def initialize(board_id, generations_away=0)
+    @board = Board.find(board_id)
+    @size = @board.size
+    @generation = @board.generations.order(order: :desc).first
+    @current_step = @generation.order
+    @current_board = JSON.parse(@generation.state)
+  end
+
+  def generations_away(steps)
+    last_generation = nil
+    missing_steps = steps - @current_step + 1
+    missing_steps.times do |i|
+      generation = next_generation
+      @current_board = JSON.parse(generation.state)
+      last_generation = generation
+    end
+    last_generation
   end
 
   def next_generation
+    return @generation if @generation.final
     matrix_size = @current_board.length
     next_step_board = Array.new(matrix_size) { Array.new(matrix_size, 0) }
     for i in 0..@current_board.length-1
@@ -29,10 +44,24 @@ class GameOfLifeService
         end
       end
     end
-    @current_board = next_step_board
+    if @current_board == next_step_board
+      set_last_generation_as_final()
+    else
+      persist_generation(next_step_board)
+    end
   end
 
   private
+    def set_last_generation_as_final
+      generation = @board.generations.last
+      generation.update(final: true)
+      generation
+    end
+
+    def persist_generation(generation_state, is_final=false)
+      @board.generations.create(state: generation_state, final: is_final)
+    end
+    
     def live_neighbors(row, col)
       neighbors = []
 

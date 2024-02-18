@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_17_173103) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_18_175031) do
   create_table "boards", force: :cascade do |t|
     t.string "name"
     t.integer "size"
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_17_173103) do
     t.integer "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "final", default: false
     t.index ["board_id"], name: "index_generations_on_board_id"
   end
 
