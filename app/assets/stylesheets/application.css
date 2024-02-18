@@ -13,3 +13,35 @@
  *= require_tree .
  *= require_self
  */
+
+ .grid {
+  gap: 2px;
+  margin: 20px auto;
+  width: 200px;
+  height: 200px;
+  border: 2px solid #333;
+  background-color: #fff;
+}
+
+.grid-cell {
+  background-color: #fff;
+  border: solid 1px #bbb;
+}
+
+.grid-cell.live {
+  background-color: #00f050;
+}
+
+.boardList {
+  width: 200px;
+  float: left;
+}
+
+.boardList li {
+  padding: 10px 5px;
+}
+
+.boardList li:hover {
+  background: #bbb;
+  cursor: pointer;
+}
