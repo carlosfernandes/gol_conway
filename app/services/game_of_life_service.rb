@@ -1,5 +1,5 @@
 class GameOfLifeService
-  def initialize(board_id, generations_away=0)
+  def initialize(board_id)
     @board = Board.find(board_id)
     @size = @board.size
     @generation = @board.generations.order(order: :desc).first
@@ -44,11 +44,15 @@ class GameOfLifeService
         end
       end
     end
-    if @current_board == next_step_board
+    if is_current_board(next_step_board)
       set_last_generation_as_final()
     else
       persist_generation(next_step_board)
     end
+  end
+
+  def is_current_board(next_step_board)
+    @current_board == next_step_board
   end
 
   private
