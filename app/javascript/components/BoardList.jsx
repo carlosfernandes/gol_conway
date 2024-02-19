@@ -56,7 +56,6 @@ const BoardList = ({}) => {
 
   const handleGenerationsAwayChange = (e) => {
     setGenerationsAway(e.target.value);
-    console.log(generationsAway)
   };
 
   const handleFinalGenerationAttemptsChange = (e) => {
